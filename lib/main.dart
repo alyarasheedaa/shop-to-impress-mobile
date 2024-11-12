@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_to_impress/menu.dart';
+import 'package:shop_to_impress/screens/menu.dart';
 
 void main() {
   runApp(const MyApp());
