@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_to_impress/screens/list_productentry.dart';
 import 'package:shop_to_impress/screens/menu.dart';
 import 'package:shop_to_impress/screens/productentry_form.dart';
 
@@ -17,7 +18,7 @@ class LeftDrawer extends StatelessWidget {
             child: const Column(
               children: [
                 Text(
-                  'Mental Health Tracker',
+                  'Shop to Impress',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 24,
@@ -27,7 +28,7 @@ class LeftDrawer extends StatelessWidget {
                 ),
                 Padding(padding: EdgeInsets.all(8)),
                 Text(
-                  "Ayo jaga kesehatan mentalmu setiap hari disini!",
+                  "Shop Everyday",
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.white,
@@ -49,15 +50,27 @@ class LeftDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.mood),
-            title: const Text('Tambah Item'),
-            // Bagian redirection ke MoodEntryFormPage
+            leading: const Icon(Icons.production_quantity_limits),
+            title: const Text('Tambah Product'),
+            // Bagian redirection ke ProductEntryFormPage
             onTap: () {
               Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MoodEntryFormPage(),
-                  ));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProductEntryFormPage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_reaction_rounded),
+            title: const Text('Daftar Produk'),
+            onTap: () {
+              // Route menu ke halaman mood
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProductEntryPage()),
+              );
             },
           ),
         ],
