@@ -3,6 +3,7 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_to_impress/models/product_entry.dart';
 import 'package:shop_to_impress/widgets/left_drawer.dart';
+import 'package:shop_to_impress/screens/product_detail.dart'; // Import for detail page
 
 class ProductEntryPage extends StatefulWidget {
   const ProductEntryPage({super.key});
@@ -14,10 +15,10 @@ class ProductEntryPage extends StatefulWidget {
 class _ProductEntryPageState extends State<ProductEntryPage> {
   Future<List<ProductEntry>> fetchProducts(CookieRequest request) async {
     try {
-      // Gunakan URL yang sesuai (http://10.0.2.2:8000/json/ untuk emulator Android)
+      // Use the correct URL (http://10.0.2.2:8000/json/ for Android emulator)
       final response = await request.get('http://127.0.0.1:8000/json/');
 
-      // Validasi respons
+      // Validate the response
       if (response == null || response.isEmpty) {
         throw Exception('No data available or failed to fetch data');
       }
@@ -28,7 +29,7 @@ class _ProductEntryPageState extends State<ProductEntryPage> {
       }
       return productList;
     } catch (e) {
-      // Tangani error
+      // Handle errors
       print("Error: $e");
       return [];
     }
@@ -63,46 +64,56 @@ class _ProductEntryPageState extends State<ProductEntryPage> {
               itemCount: snapshot.data.length,
               itemBuilder: (_, index) {
                 final product = snapshot.data[index];
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  padding: const EdgeInsets.all(20.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10.0),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 4.0,
-                        offset: Offset(0, 4),
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProductDetailPage(product: product),
                       ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Product: ${product.fields.product}",
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.all(20.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 4.0,
+                          offset: Offset(0, 4),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text("Amount: Rp${product.fields.price}"),
-                      const SizedBox(height: 10),
-                      Text("Description: ${product.fields.description}"),
-                      const SizedBox(height: 10),
-                      Text("Added on: ${product.fields.time}"),
-                      const SizedBox(height: 10),
-                      product.fields.imageUrl != null
-                          ? Image.network(
-                              product.fields.imageUrl!,
-                              height: 150,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                            )
-                          : const Text("No image available"), // Placeholder jika null
-                    ],
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Product: ${product.fields.product}",
+                          style: const TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text("Amount: Rp${product.fields.price}"),
+                        const SizedBox(height: 10),
+                        Text("Description: ${product.fields.description}"),
+                        const SizedBox(height: 10),
+                        Text("Added on: ${product.fields.time}"),
+                        const SizedBox(height: 10),
+                        product.fields.imageUrl != null
+                            ? Image.network(
+                                product.fields.imageUrl!,
+                                height: 150,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              )
+                            : const Text("No image available"), // Placeholder if null
+                      ],
+                    ),
                   ),
                 );
               },

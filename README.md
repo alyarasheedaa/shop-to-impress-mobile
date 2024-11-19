@@ -120,58 +120,37 @@ c. Logout
 **Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).**
 1. Pastikan Django Sudah Jalan dan Bisa Diakses
 - Pastikan server Django sudah siap, baik di local (localhost) atau platform hosting (contohnya Heroku atau Render).  
-  Cek endpoint API-nya pakai Postman atau browser, pastikan data JSON bisa diambil dengan baik.  
+- Cek endpoint API-nya pakai Postman atau browser, pastikan data JSON bisa diambil dengan baik.  
 
 2. Bikin Fitur Registrasi di Flutter  
 - Buat halaman form untuk pengguna mendaftar akun. Form ini minimal ada username, password, dan konfirmasi password.  
-  Kirim data ke API Django lewat `CookieRequest.postJson`. Kalau berhasil, tampilkan pesan sukses, kalau gagal, kasih tahu pengguna apa yang salah.  
+- Kirim data ke API Django lewat `CookieRequest.postJson`. Kalau berhasil, tampilkan pesan sukses, kalau gagal, kasih tahu pengguna apa yang salah.  
 
-#### **3. Tambahkan Halaman Login**  
-- **Apa yang Dilakukan**:  
-  Buat form login di Flutter yang minta username dan password.  
-  Gunakan `CookieRequest.login` buat kirim datanya ke Django. Kalau berhasil, simpan status login dan arahkan ke halaman utama aplikasi.  
+3. Tambahkan Halaman Login
+- Buat form login di Flutter yang minta username dan password.  
+- Gunakan `CookieRequest.login` buat kirim datanya ke Django. Kalau berhasil, simpan status login dan arahkan ke halaman utama aplikasi.  
 
----
+4. Hubungkan Autentikasi Django ke Flutter 
+- Gunakan package `pbp_django_auth` untuk mengelola sesi autentikasi dengan Django.  
+- Pastikan Django mengatur sesi dengan session cookie. Di Flutter, gunakan `Provider` supaya instance `CookieRequest` bisa diakses di semua halaman aplikasi.  
 
-#### **4. Hubungkan Autentikasi Django ke Flutter**  
-- **Apa yang Dilakukan**:  
-  Gunakan package `pbp_django_auth` untuk mengelola sesi autentikasi dengan Django.  
-  Pastikan Django mengatur sesi dengan session cookie. Di Flutter, gunakan `Provider` supaya instance `CookieRequest` bisa diakses di semua halaman aplikasi.  
+5. Buat Model Dart Sesuai Django 
+- Analisis JSON yang dikembalikan oleh API Django, lalu bikin model di Flutter sesuai strukturnya.  
+- Bisa pakai Quicktype untuk otomatis bikin model atau tulis sendiri. Pastikan ada fungsi `fromJson` untuk parsing data JSON ke Dart.  
 
----
+6. Tampilkan Daftar Item di Halaman List 
+- Buat halaman baru untuk menampilkan daftar item dari API Django. Gunakan `ListView.builder` supaya datanya dinamis.  
+- Lakukan fetch data dengan `http.get` atau `CookieRequest.get`, lalu tampilkan name, price, dan description setiap item di halaman.  
 
-#### **5. Buat Model Dart Sesuai Django**  
-- **Apa yang Dilakukan**:  
-  Analisis JSON yang dikembalikan oleh API Django, lalu bikin model di Flutter sesuai strukturnya.  
-  Bisa pakai Quicktype untuk otomatis bikin model atau tulis sendiri. Pastikan ada fungsi `fromJson` untuk parsing data JSON ke Dart.  
+7. Tambahkan Halaman Detail Item
+- Buat navigasi dari daftar item ke halaman detail. Misalnya, kalau pengguna klik item tertentu, data item dikirim ke halaman detail.  
+- Di halaman detail, tampilkan semua atribut item, seperti nama, harga, deskripsi, dll. Tambahkan tombol untuk kembali ke halaman daftar.  
 
----
+8. Filter Daftar Item Berdasarkan Pengguna Login
+- Ubah endpoint Django supaya hanya mengembalikan item yang terhubung dengan pengguna login (gunakan `request.user`).  
+- Di Flutter, pastikan permintaan ke API dilakukan setelah login, dan tampilkan data yang relevan untuk pengguna itu saja di halaman daftar.  
 
-#### **6. Tampilkan Daftar Item di Halaman List**  
-- **Apa yang Dilakukan**:  
-  Buat halaman baru untuk menampilkan daftar item dari API Django. Gunakan `ListView.builder` supaya datanya dinamis.  
-  Lakukan fetch data dengan `http.get` atau `CookieRequest.get`, lalu tampilkan name, price, dan description setiap item di halaman.  
-
----
-
-#### **7. Tambahkan Halaman Detail Item**  
-- **Apa yang Dilakukan**:  
-  Buat navigasi dari daftar item ke halaman detail. Misalnya, kalau pengguna klik item tertentu, data item dikirim ke halaman detail.  
-  Di halaman detail, tampilkan semua atribut item, seperti nama, harga, deskripsi, dll. Tambahkan tombol untuk kembali ke halaman daftar.  
-
----
-
-#### **8. Filter Daftar Item Berdasarkan Pengguna Login**  
-- **Apa yang Dilakukan**:  
-  Ubah endpoint Django supaya hanya mengembalikan item yang terhubung dengan pengguna login (gunakan `request.user`).  
-  Di Flutter, pastikan permintaan ke API dilakukan setelah login, dan tampilkan data yang relevan untuk pengguna itu saja di halaman daftar.  
-
----
-
-### **Bagaimana Semuanya Terhubung?**
 1. Pastikan Django sudah berfungsi sebagai backend yang bisa diakses oleh Flutter.
 2. Implementasi login dan registrasi di Flutter untuk autentikasi pengguna.
 3. Ambil data dari Django dan tampilkan di Flutter, seperti daftar item dan halaman detail.
 4. Filter data supaya hanya item milik pengguna login yang ditampilkan.
-
-Dengan langkah-langkah ini, aplikasi kamu akan terhubung dengan Django dan berjalan sesuai checklist! 😊
